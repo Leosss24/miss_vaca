@@ -1,1 +1,35 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfcf8;
+  color: #2b2b2b;
+  margin: 0;
+  padding: 2rem;
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+#vacas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+form.formulario {
+  background-color: #fffdf9;
+  border: 3px solid #5a3825;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
+}
+
+form h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #38210f
 
