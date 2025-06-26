@@ -3,8 +3,63 @@ import { supabase } from './supabase.js'
 const vacas = ['Redonda (A Coruña)', 'Linda (Lugo)', 'Gallega (Ourense)', 'Boneca (Pontevedra)']
 const criterios = ['apariencia', 'proporciones', 'actitud', 'carisma']
 
-const container = document.getElementById('vacas-container')
+const loginContainer = document.getElementById('login-container')
+const mainContainer = document.getElementById('main-container')
+const nombreInput = document.getElementById('nombre-usuario')
+const btnLogin = document.getElementById('btn-login')
+const btnLogout = document.getElementById('btn-logout')
+const vacasContainer = document.getElementById('vacas-container')
 const resultadosDiv = document.getElementById('resultados')
+
+let usuario = null
+
+btnLogin.addEventListener('click', () => {
+  const nombre = nombreInput.value.trim()
+  if (!nombre) {
+    alert('Por favor, introduce tu nombre para continuar.')
+    return
+  }
+  usuario = nombre
+  localStorage.setItem('usuarioMissVaca', usuario)
+  inicializarApp()
+})
+
+btnLogout.addEventListener('click', () => {
+  usuario = null
+  localStorage.removeItem('usuarioMissVaca')
+  location.reload()
+})
+
+async function inicializarApp() {
+  loginContainer.style.display = 'none'
+  mainContainer.style.display = 'flex'
+
+  vacasContainer.innerHTML = ''
+  vacas.forEach(vaca => {
+    crearFormulario(vaca)
+  })
+
+  await mostrarResultados()
+
+  // Comprobar si usuario ya votó
+  const { data, error } = await supabase
+    .from('votos')
+    .select('*')
+    .eq('usuario', usuario)
+
+  if (error) {
+    console.error('Error comprobando votos:', error)
+    alert('Error comprobando votos. Recarga la página.')
+    return
+  }
+
+  if (data.length > 0) {
+    vacasContainer.querySelectorAll('form').forEach(form => {
+      form.querySelectorAll('button').forEach(b => b.disabled = true)
+    })
+    alert(`Ya has votado con el usuario "${usuario}". Gracias.`)
+  }
+}
 
 function crearFormulario(vaca) {
   const form = document.createElement('form')
@@ -53,7 +108,12 @@ function crearFormulario(vaca) {
   form.addEventListener('submit', async e => {
     e.preventDefault()
 
-    const voto = { vaca }
+    if (!usuario) {
+      alert('Debes iniciar sesión para votar.')
+      return
+    }
+
+    const voto = { vaca, usuario }
     let incompleto = false
 
     criterios.forEach(c => {
@@ -68,25 +128,36 @@ function crearFormulario(vaca) {
       return
     }
 
+    // Comprobar si ya votó
+    const { data: yaVoto, error: errCheck } = await supabase
+      .from('votos')
+      .select('*')
+      .eq('usuario', usuario)
+
+    if (errCheck) {
+      alert('Error verificando votos. Intenta de nuevo.')
+      return
+    }
+
+    if (yaVoto.length > 0) {
+      alert('Ya has votado anteriormente, no puedes votar de nuevo.')
+      form.querySelectorAll('button').forEach(b => b.disabled = true)
+      return
+    }
+
     const { error } = await supabase.from('votos').insert([voto])
     if (error) {
       alert("Error al votar 😞")
       console.error(error)
     } else {
-      alert(`¡Gracias por votar por ${vaca}! 🐄`)
-      // Inhabilitar botones y submit
+      alert(`¡Gracias por votar por ${vaca}, ${usuario}! 🐄`)
       form.querySelectorAll('button').forEach(b => b.disabled = true)
       await mostrarResultados()
     }
   })
 
-  return form
+  vacasContainer.appendChild(form)
 }
-
-vacas.forEach(vaca => {
-  const form = crearFormulario(vaca)
-  container.appendChild(form)
-})
 
 async function mostrarResultados() {
   const { data, error } = await supabase.from('votos').select('*')
@@ -109,7 +180,6 @@ async function mostrarResultados() {
 
   resultadosDiv.innerHTML = `<h2>Resultados en Vivo 📊</h2>`
 
-  // Detectar vaca ganadora
   let maxMedia = -Infinity
   let vacaGanadora = null
 
@@ -142,8 +212,9 @@ async function mostrarResultados() {
   })
 }
 
-// Mostrar resultados al cargar
-mostrarResultados()
-
-// Actualizar cada 10 segundos
-setInterval(mostrarResultados, 10000)
+// Auto-login si hay usuario guardado
+const usuarioGuardado = localStorage.getItem('usuarioMissVaca')
+if (usuarioGuardado) {
+  usuario = usuarioGuardado
+  inicializarApp()
+}
