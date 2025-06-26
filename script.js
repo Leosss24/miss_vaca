@@ -1,6 +1,6 @@
 import { supabase } from './supabase.js'
 
-const vacas = ['Redonda (A Coruña)', 'Linda (Lugo)', 'Gallega (Ourense)', 'Boneca (Pontevedra)']
+const vacas = ['Clarabella', 'Margarita', 'Lola', 'Brunilda']
 const criterios = ['apariencia', 'proporciones', 'actitud', 'carisma']
 
 const container = document.getElementById('vacas-container')
@@ -11,28 +11,73 @@ container.appendChild(resultadosDiv)
 function crearFormulario(vaca) {
   const form = document.createElement('form')
   form.className = 'formulario'
-  form.innerHTML = `
-    <h2>${vaca}</h2>
-    ${criterios.map(c =>
-      `<label>${c}: <input type="range" name="${c}" min="1" max="5" value="3" /></label><br>`
-    ).join('')}
-    <button type="submit">Votar</button>
-  `
+
+  const campos = criterios.map(criterio => {
+    const grupo = document.createElement('div')
+    grupo.className = 'voto-grupo'
+    grupo.dataset.criterio = criterio
+
+    const label = document.createElement('label')
+    label.textContent = criterio.toUpperCase()
+
+    for (let i = 1; i <= 5; i++) {
+      const btn = document.createElement('button')
+      btn.type = 'button'
+      btn.textContent = i
+      btn.dataset.valor = i
+
+      btn.addEventListener('click', () => {
+        [...grupo.children].forEach(b => b.classList.remove('selected'))
+        btn.classList.add('selected')
+        grupo.dataset.valor = i
+      })
+
+      grupo.appendChild(btn)
+    }
+
+    return { label, grupo }
+  })
+
+  const titulo = document.createElement('h2')
+  titulo.textContent = vaca
+
+  const submit = document.createElement('button')
+  submit.type = 'submit'
+  submit.textContent = 'Votar'
+
+  form.appendChild(titulo)
+  campos.forEach(({ label, grupo }) => {
+    form.appendChild(label)
+    form.appendChild(grupo)
+  })
+  form.appendChild(submit)
 
   form.addEventListener('submit', async e => {
     e.preventDefault()
-    const datos = Object.fromEntries(new FormData(form))
-    const voto = {
-      vaca,
-      ...Object.fromEntries(Object.entries(datos).map(([k, v]) => [k, parseInt(v)]))
+
+    const voto = { vaca }
+    let incompleto = false
+
+    criterios.forEach(c => {
+      const grupo = form.querySelector(`.voto-grupo[data-criterio="${c}"]`)
+      const valor = parseInt(grupo.dataset.valor)
+      if (!valor) incompleto = true
+      voto[c] = valor
+    })
+
+    if (incompleto) {
+      alert('Por favor selecciona una puntuación para todos los criterios.')
+      return
     }
+
     const { error } = await supabase.from('votos').insert([voto])
     if (error) {
       alert("Error al votar 😞")
       console.error(error)
     } else {
       alert(`¡Gracias por votar por ${vaca}! 🐄`)
-      await mostrarResultados()  // actualiza inmediatamente tras votar
+      form.querySelectorAll('button').forEach(b => b.disabled = true)
+      await mostrarResultados()
     }
   })
 
@@ -72,7 +117,7 @@ async function mostrarResultados() {
       <div class="resultado">
         <h3>${v}</h3>
         ${criterios.map(c =>
-          `${c}: ${r.count ? (r[c] / r.count).toFixed(2) : '—'}`
+          `${c.toUpperCase()}: ${r.count ? (r[c] / r.count).toFixed(2) : '—'}`
         ).join('<br>')}
         <strong>Puntuación media: ${r.count ? media : '—'}</strong>
       </div>
@@ -81,9 +126,8 @@ async function mostrarResultados() {
   })
 }
 
-// Mostrar resultados al cargar
+// Mostrar al cargar
 mostrarResultados()
 
-// Refrescar cada 10 segundos
+// Actualizar cada 10 segundos
 setInterval(mostrarResultados, 10000)
-
