@@ -1,6 +1,6 @@
 import { supabase } from './supabase.js'
 
-const vacas = ['Clarabella', 'Margarita', 'Lola', 'Brunilda']
+const vacas = ['Redonda (A Coruña)', 'Linda (Lugo)', 'Gallega (Ourense)', 'Boneca (Pontevedra)']
 const criterios = ['apariencia', 'proporciones', 'actitud', 'carisma']
 
 const container = document.getElementById('vacas-container')
