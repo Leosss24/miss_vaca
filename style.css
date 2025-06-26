@@ -146,7 +146,7 @@ button[type="submit"]:disabled {
 }
 
 .resultado.ganadora {
-  background-color: #7e57c2;
+  background-color: #5a3825;
   color: white;
   padding: 1rem;
   border-radius: 0.6rem;
@@ -166,18 +166,19 @@ button[type="submit"]:disabled {
 }
 
 #btn-logout {
-  background-color: #b34242;
+  background-color: #5a3825;        /* marrón oscuro */
   color: white;
-  padding: 0.6rem 1.4rem;
+  padding: 0.4rem 1rem;
   border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
+  border-radius: 0.4rem;
+  font-size: 0.95rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-weight: 500;
 }
 
 #btn-logout:hover {
-  background-color: #992e2e;
+  background-color: #3c2a18;       /* marrón más oscuro al pasar el ratón */
 }
 
 /* Responsive */
