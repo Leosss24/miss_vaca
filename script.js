@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const vacasContainer = document.getElementById('vacas-container')
   const resultadosDiv = document.getElementById('resultados')
 
+  
   let usuario = null
 
   btnLogin.addEventListener('click', () => {
