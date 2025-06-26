@@ -13,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const vacasContainer = document.getElementById('vacas-container')
   const resultadosDiv = document.getElementById('resultados')
 
-  
   let usuario = null
 
   btnLogin.addEventListener('click', () => {
@@ -46,9 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     await mostrarResultados()
 
+    // Obtener vacas ya votadas por este usuario
     const { data, error } = await supabase
       .from('votos')
-      .select('*')
+      .select('vaca')
       .eq('usuario', usuario)
 
     if (error) {
@@ -57,12 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
       return
     }
 
-    if (data.length > 0) {
-      vacasContainer.querySelectorAll('form').forEach(form => {
+    const vacasVotadas = data.map(item => item.vaca)
+
+    vacasContainer.querySelectorAll('form').forEach(form => {
+      const vacaForm = form.querySelector('h2').textContent
+      if (vacasVotadas.includes(vacaForm)) {
         form.querySelectorAll('button').forEach(b => b.disabled = true)
-      })
-      alert(`Ya has votado con el usuario "${usuario}". Gracias.`)
-    }
+      }
+    })
   }
 
   function crearFormulario(vaca) {
@@ -132,10 +134,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return
       }
 
+      // Comprobar si ya votó esta vaca
       const { data: yaVoto, error: errCheck } = await supabase
         .from('votos')
         .select('*')
         .eq('usuario', usuario)
+        .eq('vaca', vaca)
 
       if (errCheck) {
         alert('Error verificando votos. Intenta de nuevo.')
@@ -143,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (yaVoto.length > 0) {
-        alert('Ya has votado anteriormente, no puedes votar de nuevo.')
+        alert(`Ya has votado anteriormente por la vaca ${vaca}, no puedes votar de nuevo.`)
         form.querySelectorAll('button').forEach(b => b.disabled = true)
         return
       }
