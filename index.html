@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Login de prueba - Miss Vaca</title>
+  <meta charset="UTF-8" />
+  <title>Miss Vaca 2025 🐄</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Miss Vaca 2025 🐄</h1>
 
+  <!-- Login simple -->
   <div id="login-container" style="text-align:center;">
     <h2>Ingresa tu nombre para votar</h2>
-    <label for="nombre-usuario">Tu nombre:</label><br>
-    <input type="text" id="nombre-usuario" placeholder="Escribe tu nombre"><br><br>
-    <button id="btn-login" type="button">Entrar</button>
+    <input type="text" id="nombre-usuario" placeholder="Tu nombre" />
+    <button id="btn-login">Entrar</button>
   </div>
 
   <div id="main-container" style="display:none;">
-    <p>Hola, <span id="nombre-mostrado"></span>. Estás dentro de la app ✅</p>
+    <div id="vacas-container"></div>
+    <div id="resultados"></div>
+    <button id="btn-logout" style="margin-top: 2rem;">Cerrar sesión</button>
   </div>
 
   <script type="module" src="script.js"></script>
