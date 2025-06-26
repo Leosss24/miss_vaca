@@ -4,9 +4,7 @@ const vacas = ['Redonda (A Coruña)', 'Linda (Lugo)', 'Gallega (Ourense)', 'Bone
 const criterios = ['apariencia', 'proporciones', 'actitud', 'carisma']
 
 const container = document.getElementById('vacas-container')
-const resultadosDiv = document.createElement('div')
-resultadosDiv.id = 'resultados'
-container.appendChild(resultadosDiv)
+const resultadosDiv = document.getElementById('resultados')
 
 function crearFormulario(vaca) {
   const form = document.createElement('form')
@@ -76,6 +74,7 @@ function crearFormulario(vaca) {
       console.error(error)
     } else {
       alert(`¡Gracias por votar por ${vaca}! 🐄`)
+      // Inhabilitar botones y submit
       form.querySelectorAll('button').forEach(b => b.disabled = true)
       await mostrarResultados()
     }
@@ -126,7 +125,7 @@ async function mostrarResultados() {
   })
 }
 
-// Mostrar al cargar
+// Mostrar resultados al cargar
 mostrarResultados()
 
 // Actualizar cada 10 segundos
