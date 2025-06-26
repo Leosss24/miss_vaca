@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nombreInput = document.getElementById('nombre-usuario')
   const btnLogin = document.getElementById('btn-login')
   const btnLogout = document.getElementById('btn-logout')
+  const logoutWrapper = document.getElementById('logout-wrapper')
   const vacasContainer = document.getElementById('vacas-container')
   const resultadosDiv = document.getElementById('resultados')
 
@@ -34,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function inicializarApp() {
     loginContainer.style.display = 'none'
     mainContainer.style.display = 'flex'
-    btnLogout.style.display = 'block'
+    logoutWrapper.style.display = 'block'
 
     vacasContainer.innerHTML = ''
     vacas.forEach(vaca => {
