@@ -45,6 +45,10 @@ form.formulario {
   border-radius: 1rem;
   padding: 1rem;
   box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrar contenido horizontal */
 }
 
 form h2 {
@@ -105,6 +109,7 @@ button[type="submit"] {
   font-size: 1rem;
   cursor: pointer;
   user-select: none;
+  margin-top: 0.5rem; /* Separación y centrado */
 }
 
 button[type="submit"]:disabled {
@@ -142,6 +147,22 @@ button[type="submit"]:disabled {
 .resultado h3 {
   margin-bottom: 0.5rem;
   font-weight: 700;
+}
+
+/* Vaca ganadora: fondo violeta y texto blanco */
+.resultado.ganadora {
+  background-color: #7e57c2; /* violeta */
+  color: white;
+  padding: 1rem;
+  border-radius: 0.6rem;
+}
+
+/* Puntuación media estilizada */
+.resultado .media {
+  margin-top: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1rem;
 }
 
 /* Responsive: apilar todo en móviles */
