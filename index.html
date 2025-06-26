@@ -8,18 +8,22 @@
 <body>
   <h1>Miss Vaca 2025 🐄</h1>
 
-  <!-- Login simple -->
+  <!-- Login -->
   <div id="login-container" style="text-align:center;">
     <h2>Ingresa tu nombre para votar</h2>
-    <input type="text" id="nombre-usuario" placeholder="Tu nombre" />
-    <button id="btn-login">Entrar</button>
+    <label for="nombre-usuario">Tu nombre:</label><br>
+    <input type="text" id="nombre-usuario" placeholder="Tu nombre" /><br><br>
+    <button id="btn-login" type="button">Entrar</button>
   </div>
 
+  <!-- App principal -->
   <div id="main-container" style="display:none;">
     <div id="vacas-container"></div>
     <div id="resultados"></div>
-    <button id="btn-logout" style="margin-top: 2rem;">Cerrar sesión</button>
   </div>
+
+  <!-- Botón de cerrar sesión abajo -->
+  <button id="btn-logout" style="display:none;">Cerrar sesión</button>
 
   <script type="module" src="script.js"></script>
 </body>
