@@ -108,17 +108,34 @@ async function mostrarResultados() {
   })
 
   resultadosDiv.innerHTML = `<h2>Resultados en Vivo 📊</h2>`
+
+  // Detectar vaca ganadora
+  let maxMedia = -Infinity
+  let vacaGanadora = null
+
   vacas.forEach(v => {
     const r = resumen[v]
     const total = criterios.reduce((sum, c) => sum + (r.count ? (r[c] / r.count) : 0), 0)
-    const media = (total / 4).toFixed(2)
+    const media = r.count ? (total / 4) : 0
+    if(media > maxMedia) {
+      maxMedia = media
+      vacaGanadora = v
+    }
+  })
+
+  vacas.forEach(v => {
+    const r = resumen[v]
+    const total = criterios.reduce((sum, c) => sum + (r.count ? (r[c] / r.count) : 0), 0)
+    const media = r.count ? (total / 4) : 0
+    const isWinner = v === vacaGanadora
+
     const html = `
-      <div class="resultado">
+      <div class="resultado ${isWinner ? 'ganadora' : ''}">
         <h3>${v}</h3>
         ${criterios.map(c =>
-          `${c.toUpperCase()}: ${r.count ? (r[c] / r.count).toFixed(2) : '—'}`
-        ).join('<br>')}
-        <strong>Puntuación media: ${r.count ? media : '—'}</strong>
+          `<div>${c.toUpperCase()}: ${r.count ? (r[c] / r.count).toFixed(2) : '—'}</div>`
+        ).join('')}
+        <div class="media">PUNTUACIÓN MEDIA: ${r.count ? media.toFixed(2) : '—'}</div>
       </div>
     `
     resultadosDiv.innerHTML += html
