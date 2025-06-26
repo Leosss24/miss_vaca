@@ -1,25 +1,44 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #fdfcf8;
   color: #2b2b2b;
   margin: 0;
   padding: 2rem;
-  text-align: center;
+  min-height: 100vh;
 }
 
 h1 {
-  margin-bottom: 2rem;
-  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 2.2rem;
+  color: #38210f;
 }
 
-#vacas-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+#main-container {
+  display: flex;
   gap: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  flex: 1;
+  min-height: 70vh;
 }
 
+/* Contenedor vacas - cuadrícula 2x2 */
+#vacas-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  flex: 2 1 0;
+}
+
+/* Formularios */
 form.formulario {
   background-color: #fffdf9;
   border: 3px solid #5a3825;
@@ -36,7 +55,7 @@ form h2 {
 
 label {
   display: block;
-  margin: 1rem 0 0.5rem;
+  margin: 1rem 0 0.3rem;
   font-weight: bold;
   text-transform: uppercase;
   color: #3c2b1c;
@@ -50,17 +69,18 @@ label {
 }
 
 .voto-grupo button {
-  width: 2rem;
-  height: 2rem;
+  width: 2.6rem;
+  height: 2.6rem;
   border: 2px solid #444;
   border-radius: 0.3rem;
   background-color: #eaeaea;
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s;
+  user-select: none;
 }
 
-.voto-grupo button:hover {
+.voto-grupo button:hover:not(:disabled) {
   background-color: #cfcfcf;
 }
 
@@ -84,6 +104,7 @@ button[type="submit"] {
   border-radius: 0.4rem;
   font-size: 1rem;
   cursor: pointer;
+  user-select: none;
 }
 
 button[type="submit"]:disabled {
@@ -91,15 +112,49 @@ button[type="submit"]:disabled {
   cursor: not-allowed;
 }
 
+/* Contenedor resultados a la derecha */
 #resultados {
-  margin-top: 3rem;
-  text-align: left;
-  max-width: 800px;
-  margin-inline: auto;
+  flex: 1 1 300px;
+  background: #fffdf9;
+  border: 3px solid #5a3825;
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
+  overflow-y: auto;
+  max-height: 80vh;
+  font-size: 0.95rem;
+}
+
+#resultados h2 {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #38210f;
 }
 
 .resultado {
   border-top: 1px dashed #999;
   padding-top: 1rem;
   margin-top: 1rem;
+  color: #3c2b1c;
+}
+
+.resultado h3 {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+/* Responsive: apilar todo en móviles */
+@media (max-width: 768px) {
+  #main-container {
+    flex-direction: column;
+    max-width: 100%;
+  }
+  #vacas-container {
+    grid-template-columns: 1fr;
+  }
+  #resultados {
+    max-height: none;
+    margin-top: 2rem;
+  }
 }
