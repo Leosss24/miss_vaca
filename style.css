@@ -1,76 +1,105 @@
-function crearFormulario(vaca) {
-  const form = document.createElement('form')
-  form.className = 'formulario'
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfcf8;
+  color: #2b2b2b;
+  margin: 0;
+  padding: 2rem;
+  text-align: center;
+}
 
-  const campos = criterios.map(criterio => {
-    const grupo = document.createElement('div')
-    grupo.className = 'voto-grupo'
-    grupo.dataset.criterio = criterio
+h1 {
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
 
-    const label = document.createElement('label')
-    label.textContent = criterio.toUpperCase()
+#vacas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-    for (let i = 1; i <= 5; i++) {
-      const btn = document.createElement('button')
-      btn.type = 'button'
-      btn.textContent = i
-      btn.dataset.valor = i
+form.formulario {
+  background-color: #fffdf9;
+  border: 3px solid #5a3825;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
+}
 
-      btn.addEventListener('click', () => {
-        [...grupo.children].forEach(b => b.classList.remove('selected'))
-        btn.classList.add('selected')
-        grupo.dataset.valor = i
-      })
+form h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  color: #38210f;
+}
 
-      grupo.appendChild(btn)
-    }
+label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #3c2b1c;
+}
 
-    return { label, grupo }
-  })
+.voto-grupo {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
 
-  const titulo = document.createElement('h2')
-  titulo.textContent = vaca
+.voto-grupo button {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid #444;
+  border-radius: 0.3rem;
+  background-color: #eaeaea;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+}
 
-  const submit = document.createElement('button')
-  submit.type = 'submit'
-  submit.textContent = 'Votar'
+.voto-grupo button:hover {
+  background-color: #cfcfcf;
+}
 
-  form.appendChild(titulo)
-  campos.forEach(({ label, grupo }) => {
-    form.appendChild(label)
-    form.appendChild(grupo)
-  })
-  form.appendChild(submit)
+.voto-grupo button.selected {
+  background-color: #3b2d23;
+  color: #fff;
+  border-color: #3b2d23;
+}
 
-  form.addEventListener('submit', async e => {
-    e.preventDefault()
+.voto-grupo button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+  color: #888;
+}
 
-    const voto = { vaca }
-    let incompleto = false
+button[type="submit"] {
+  background-color: #6b4e32;
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 0.4rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
 
-    criterios.forEach(c => {
-      const grupo = form.querySelector(`.voto-grupo[data-criterio="${c}"]`)
-      const valor = parseInt(grupo.dataset.valor)
-      if (!valor) incompleto = true
-      voto[c] = valor
-    })
+button[type="submit"]:disabled {
+  background-color: #bbb;
+  cursor: not-allowed;
+}
 
-    if (incompleto) {
-      alert('Por favor selecciona una puntuación para todos los criterios.')
-      return
-    }
+#resultados {
+  margin-top: 3rem;
+  text-align: left;
+  max-width: 800px;
+  margin-inline: auto;
+}
 
-    const { error } = await supabase.from('votos').insert([voto])
-    if (error) {
-      alert("Error al votar 😞")
-      console.error(error)
-    } else {
-      alert(`¡Gracias por votar por ${vaca}! 🐄`)
-      // Desactiva botones y submit
-      form.querySelectorAll('button').forEach(b => b.disabled = true)
-      await mostrarResultados()
-    }
-  })
-
-  return form
+.resultado {
+  border-top: 1px dashed #999;
+  padding-top: 1rem;
+  margin-top: 1rem;
 }
