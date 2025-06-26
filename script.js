@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function inicializarApp() {
     loginContainer.style.display = 'none'
     mainContainer.style.display = 'flex'
+    btnLogout.style.display = 'block'
 
     vacasContainer.innerHTML = ''
     vacas.forEach(vaca => {
@@ -212,7 +213,6 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
-  // Cargar sesión si ya existe
   const usuarioGuardado = localStorage.getItem('usuarioMissVaca')
   if (usuarioGuardado) {
     usuario = usuarioGuardado
