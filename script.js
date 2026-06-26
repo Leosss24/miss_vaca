@@ -169,10 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Actualizar resultados
         await mostrarResultados()
       }
-
+    })
     return form
   }
-  })
+  
 
   async function mostrarResultados() {
     const { data, error } = await supabase.from('votos').select('*')
