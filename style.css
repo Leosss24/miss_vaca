@@ -356,4 +356,96 @@ button[type="submit"]:disabled {
   #resultados {
     max-height: none;
   }
+  
+  /* Animación al votar */
+  .vote-toast {
+    position: fixed;
+    left: 50%;
+    top: 24px;
+    transform: translateX(-50%) translateY(-20px);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    padding: 0.9rem 1.4rem;
+    border-radius: 999px;
+    font-weight: 800;
+    box-shadow: 0 12px 28px rgba(77, 22, 143, 0.28);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    animation: toastInOut 2.2s ease forwards;
+  }
+  
+  .vote-toast::before {
+    content: "✨ ";
+  }
+  
+  @keyframes toastInOut {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px) scale(0.95);
+    }
+  
+    15% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+  
+    80% {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1);
+    }
+  
+    100% {
+      opacity: 0;
+      transform: translateX(-50%) translateY(-20px) scale(0.95);
+    }
+  }
+  
+  .formulario.voto-ok {
+    animation: voteGlow 0.7s ease;
+  }
+  
+  @keyframes voteGlow {
+    0% {
+      box-shadow: var(--shadow);
+      transform: scale(1);
+    }
+  
+    45% {
+      box-shadow:
+        0 0 0 4px rgba(212, 160, 23, 0.22),
+        0 0 24px rgba(123, 44, 255, 0.32),
+        var(--shadow);
+      transform: scale(1.015);
+    }
+  
+    100% {
+      box-shadow: var(--shadow);
+      transform: scale(1);
+    }
+  }
+  
+  .confetti-piece {
+    position: fixed;
+    top: -12px;
+    width: 9px;
+    height: 14px;
+    border-radius: 3px;
+    z-index: 9998;
+    pointer-events: none;
+    animation: confettiFall 1.4s linear forwards;
+  }
+  
+  @keyframes confettiFall {
+    0% {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg);
+    }
+  
+    100% {
+      opacity: 0;
+      transform: translateY(180px) rotate(260deg);
+    }
+  }
+  
 }
