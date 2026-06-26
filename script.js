@@ -1,7 +1,7 @@
 import { supabase } from './supabase.js'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const vacas = ['Redonda (A Coruña)', 'Linda (Lugo)', 'Gallega (Ourense)', 'Boneca (Pontevedra)']
+  const vacas = ['Linda (A Coruña)', 'Marquesa (Lugo)', 'Paloma (Ourense)', 'Roxa (Pontevedra)']
   const criterios = ['apariencia', 'proporciones', 'actitud', 'carisma']
 
   const loginContainer = document.getElementById('login-container')
