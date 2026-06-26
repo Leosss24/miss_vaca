@@ -248,23 +248,22 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
   function lanzarConfetiVoto() {
-    const colores = ["#7b2cff", "#4d168f", "#d4a017", "#ffefb3"];
-  
-    for (let i = 0; i < 26; i++) {
-      const pieza = document.createElement("span");
-      pieza.className = "confetti-piece";
-      pieza.style.left = `${Math.random() * 100}%`;
-      pieza.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
-      pieza.style.animationDelay = `${Math.random() * 0.25}s`;
-      pieza.style.transform = `rotate(${Math.random() * 180}deg)`;
-  
-      document.body.appendChild(pieza);
-  
-      setTimeout(() => {
-        pieza.remove();
-      }, 1700);
-    }
+  const colores = ["#7b2cff", "#4d168f", "#d4a017", "#ffefb3"]
+
+  for (let i = 0; i < 32; i++) {
+    const pieza = document.createElement("span")
+    pieza.className = "confetti-piece"
+    pieza.style.left = `${Math.random() * 100}%`
+    pieza.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)]
+    pieza.style.animationDelay = `${Math.random() * 0.25}s`
+
+    document.body.appendChild(pieza)
+
+    setTimeout(() => {
+      pieza.remove()
+    }, 2100)
   }
+}
   
   function animarFormularioVotado(formulario) {
     formulario.classList.remove("voto-ok");
