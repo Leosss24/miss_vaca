@@ -153,15 +153,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const { error } = await supabase.from('votos').insert([voto])
+
       if (error) {
         alert("Error al votar 😞")
         console.error(error)
       } else {
-        alert(`¡Gracias por votar por ${vaca}, ${usuario}! 🐄`)
+        // Animaciones
+        mostrarToastVoto()
+        lanzarConfetiVoto()
+        animarFormularioVotado(form)
+      
+        // Desactivar el formulario
         form.querySelectorAll('button').forEach(b => b.disabled = true)
+      
+        // Actualizar resultados
         await mostrarResultados()
       }
-    })
 
     return form
   }
@@ -223,5 +230,44 @@ document.addEventListener('DOMContentLoaded', () => {
   if (usuarioGuardado) {
     usuario = usuarioGuardado
     inicializarApp()
+  }
+
+  function mostrarToastVoto() {
+  const toastAnterior = document.querySelector(".vote-toast");
+  if (toastAnterior) toastAnterior.remove();
+
+  const toast = document.createElement("div");
+  toast.className = "vote-toast";
+  toast.textContent = "¡Voto registrado!";
+  document.body.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 2300);
+}
+
+  function lanzarConfetiVoto() {
+    const colores = ["#7b2cff", "#4d168f", "#d4a017", "#ffefb3"];
+  
+    for (let i = 0; i < 26; i++) {
+      const pieza = document.createElement("span");
+      pieza.className = "confetti-piece";
+      pieza.style.left = `${Math.random() * 100}%`;
+      pieza.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+      pieza.style.animationDelay = `${Math.random() * 0.25}s`;
+      pieza.style.transform = `rotate(${Math.random() * 180}deg)`;
+  
+      document.body.appendChild(pieza);
+  
+      setTimeout(() => {
+        pieza.remove();
+      }, 1700);
+    }
+  }
+  
+  function animarFormularioVotado(formulario) {
+    formulario.classList.remove("voto-ok");
+    void formulario.offsetWidth;
+    formulario.classList.add("voto-ok");
   }
 })
