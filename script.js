@@ -158,15 +158,12 @@ document.addEventListener('DOMContentLoaded', () => {
         alert("Error al votar 😞")
         console.error(error)
       } else {
-        // Animaciones
-        mostrarToastVoto()
+        mostrarToastVoto(vaca)
         lanzarConfetiVoto()
         animarFormularioVotado(form)
       
-        // Desactivar el formulario
         form.querySelectorAll('button').forEach(b => b.disabled = true)
       
-        // Actualizar resultados
         await mostrarResultados()
       }
     })
@@ -233,18 +230,28 @@ document.addEventListener('DOMContentLoaded', () => {
     inicializarApp()
   }
 
-  function mostrarToastVoto() {
-  const toastAnterior = document.querySelector(".vote-toast");
-  if (toastAnterior) toastAnterior.remove();
+  function mostrarToastVoto(vaca) {
+  const anterior = document.querySelector(".vote-modal-overlay")
+  if (anterior) anterior.remove()
 
-  const toast = document.createElement("div");
-  toast.className = "vote-toast";
-  toast.textContent = "¡Voto registrado!";
-  document.body.appendChild(toast);
+  const overlay = document.createElement("div")
+  overlay.className = "vote-modal-overlay"
+
+  overlay.innerHTML = `
+    <div class="vote-modal">
+      <div class="vote-modal-crown">👑</div>
+      <div class="vote-modal-title">¡Voto registrado!</div>
+      <div class="vote-modal-text">Gracias por votar por</div>
+      <div class="vote-modal-cow">${vaca}</div>
+      <div class="vote-modal-stars">✦ ✦ ✦</div>
+    </div>
+  `
+
+  document.body.appendChild(overlay)
 
   setTimeout(() => {
-    toast.remove();
-  }, 2300);
+    overlay.remove()
+  }, 2300)
 }
 
   function lanzarConfetiVoto() {
