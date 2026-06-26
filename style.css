@@ -119,7 +119,7 @@ button[type="submit"]:disabled {
 /* Enlace de Twitch */
 #twitch-link {
   position: absolute;
-  top: 2rem;
+  top: 6.5rem;
   left: 50%;
   transform: translateX(-50%);
   font-size: 2rem;
