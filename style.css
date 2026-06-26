@@ -207,7 +207,7 @@ button[type="submit"]:disabled {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px rgba(123, 44, 255, 0.12);
 }
-
+#youtube-player,
 #twitch-player {
   background: var(--card);
   border: 2px solid var(--border-soft);
@@ -216,6 +216,7 @@ button[type="submit"]:disabled {
   box-shadow: var(--shadow);
 }
 
+#youtube-player iframe,
 #twitch-player iframe {
   width: 100%;
   height: 349px;
