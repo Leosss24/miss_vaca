@@ -214,3 +214,26 @@ button[type="submit"]:disabled {
     margin-top: 2rem;
   }
 }
+
+/* Columna derecha */
+#lateral {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Reproductor Twitch */
+#twitch-player {
+  background: #fffdf9;
+  border: 3px solid #5a3825;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 4px 4px 12px rgba(0,0,0,.1);
+}
+
+#twitch-player iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
