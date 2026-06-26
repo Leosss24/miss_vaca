@@ -358,94 +358,153 @@ button[type="submit"]:disabled {
   }
   
   /* Animación al votar */
-  .vote-toast {
-    position: fixed;
-    left: 50%;
-    top: 24px;
-    transform: translateX(-50%) translateY(-20px);
-    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-    color: white;
-    padding: 0.9rem 1.4rem;
-    border-radius: 999px;
-    font-weight: 800;
-    box-shadow: 0 12px 28px rgba(77, 22, 143, 0.28);
-    z-index: 9999;
+.vote-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 21, 63, 0.28);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  pointer-events: none;
+  animation: voteOverlayFade 2.3s ease forwards;
+}
+
+.vote-modal {
+  width: min(420px, calc(100vw - 2rem));
+  background:
+    radial-gradient(circle at top, rgba(255, 226, 154, 0.4), transparent 34%),
+    linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border: 3px solid var(--accent);
+  border-radius: 1.6rem;
+  padding: 1.8rem 1.5rem;
+  text-align: center;
+  box-shadow:
+    0 0 0 5px rgba(212, 160, 23, 0.18),
+    0 24px 60px rgba(43, 21, 63, 0.36);
+  animation: voteModalPop 2.3s ease forwards;
+}
+
+.vote-modal-crown {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+  animation: crownBounce 0.8s ease infinite alternate;
+}
+
+.vote-modal-title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 0.4rem;
+}
+
+.vote-modal-text {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.vote-modal-cow {
+  margin-top: 0.3rem;
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #ffe29a;
+}
+
+.vote-modal-stars {
+  margin-top: 0.8rem;
+  color: #ffe29a;
+  letter-spacing: 0.4rem;
+  font-size: 1.2rem;
+}
+
+@keyframes voteOverlayFade {
+  0% { opacity: 0; }
+  12% { opacity: 1; }
+  78% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes voteModalPop {
+  0% {
     opacity: 0;
-    pointer-events: none;
-    animation: toastInOut 2.2s ease forwards;
+    transform: translateY(18px) scale(0.85);
   }
-  
-  .vote-toast::before {
-    content: "✨ ";
+
+  14% {
+    opacity: 1;
+    transform: translateY(0) scale(1.04);
   }
-  
-  @keyframes toastInOut {
-    0% {
-      opacity: 0;
-      transform: translateX(-50%) translateY(-20px) scale(0.95);
-    }
-  
-    15% {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0) scale(1);
-    }
-  
-    80% {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0) scale(1);
-    }
-  
-    100% {
-      opacity: 0;
-      transform: translateX(-50%) translateY(-20px) scale(0.95);
-    }
+
+  24% {
+    transform: translateY(0) scale(1);
   }
-  
-  .formulario.voto-ok {
-    animation: voteGlow 0.7s ease;
+
+  78% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
-  
-  @keyframes voteGlow {
-    0% {
-      box-shadow: var(--shadow);
-      transform: scale(1);
-    }
-  
-    45% {
-      box-shadow:
-        0 0 0 4px rgba(212, 160, 23, 0.22),
-        0 0 24px rgba(123, 44, 255, 0.32),
-        var(--shadow);
-      transform: scale(1.015);
-    }
-  
-    100% {
-      box-shadow: var(--shadow);
-      transform: scale(1);
-    }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.94);
   }
-  
-  .confetti-piece {
-    position: fixed;
-    top: -12px;
-    width: 9px;
-    height: 14px;
-    border-radius: 3px;
-    z-index: 9998;
-    pointer-events: none;
-    animation: confettiFall 1.4s linear forwards;
+}
+
+@keyframes crownBounce {
+  from {
+    transform: translateY(0) rotate(-4deg);
   }
-  
-  @keyframes confettiFall {
-    0% {
-      opacity: 1;
-      transform: translateY(0) rotate(0deg);
-    }
-  
-    100% {
-      opacity: 0;
-      transform: translateY(180px) rotate(260deg);
-    }
+
+  to {
+    transform: translateY(-5px) rotate(4deg);
   }
-  
+}
+
+.formulario.voto-ok {
+  animation: voteGlow 0.8s ease;
+}
+
+@keyframes voteGlow {
+  0% {
+    box-shadow: var(--shadow);
+    transform: scale(1);
+  }
+
+  45% {
+    box-shadow:
+      0 0 0 4px rgba(212, 160, 23, 0.22),
+      0 0 28px rgba(123, 44, 255, 0.38),
+      var(--shadow);
+    transform: scale(1.018);
+  }
+
+  100% {
+    box-shadow: var(--shadow);
+    transform: scale(1);
+  }
+}
+
+.confetti-piece {
+  position: fixed;
+  top: -16px;
+  width: 10px;
+  height: 16px;
+  border-radius: 3px;
+  z-index: 1000000;
+  pointer-events: none;
+  animation: confettiFall 2.1s linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(110vh) rotate(540deg);
+  }
 }
