@@ -2,22 +2,38 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg: #fff8ef;
+  --bg-soft: #f7ecff;
+  --card: #ffffff;
+  --primary: #7b2cff;
+  --primary-dark: #4d168f;
+  --accent: #d4a017;
+  --text: #2b153f;
+  --muted: #766282;
+  --border-soft: rgba(123, 44, 255, 0.28);
+  --shadow: 0 10px 28px rgba(43, 21, 63, 0.12);
+}
+
 body {
   display: flex;
   flex-direction: column;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fdfcf8;
-  color: #2b2b2b;
+  background:
+    radial-gradient(circle at top left, var(--bg-soft), transparent 34%),
+    linear-gradient(135deg, var(--bg), #ffffff 58%, #f6eaff);
+  color: var(--text);
   margin: 0;
   padding: 2rem;
   min-height: 100vh;
 }
 
 h1 {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   text-align: center;
-  font-size: 2.2rem;
-  color: #38210f;
+  font-size: 2.4rem;
+  color: var(--primary-dark);
+  letter-spacing: 0.02em;
 }
 
 #main-container {
@@ -29,7 +45,6 @@ h1 {
   min-height: 70vh;
 }
 
-/* Contenedor vacas - cuadrícula 2x2 */
 #vacas-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -37,14 +52,12 @@ h1 {
   flex: 2 1 0;
 }
 
-/* Formularios */
 form.formulario {
-  background-color: #fffdf9;
-  border: 3px solid #5a3825;
-  border-radius: 1rem;
-  padding: 1rem;
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
-
+  background-color: var(--card);
+  border: 2px solid var(--border-soft);
+  border-radius: 1.3rem;
+  padding: 1.2rem;
+  box-shadow: var(--shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -53,7 +66,7 @@ form.formulario {
 form h2 {
   margin-top: 0;
   font-size: 1.4rem;
-  color: #38210f;
+  color: var(--primary-dark);
 }
 
 label {
@@ -61,22 +74,24 @@ label {
   margin: 1rem 0 0.3rem;
   font-weight: bold;
   text-transform: uppercase;
-  color: #3c2b1c;
+  color: var(--muted);
+  letter-spacing: 0.04em;
 }
 
 .voto-grupo {
   display: flex;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   margin-bottom: 1rem;
 }
 
 .voto-grupo button {
-  width: 2.6rem;
-  height: 2.6rem;
-  border: 2px solid #444;
-  border-radius: 0.3rem;
-  background-color: #eaeaea;
+  width: 2.7rem;
+  height: 2.7rem;
+  border: 2px solid var(--border-soft);
+  border-radius: 999px;
+  background-color: #f8f1ff;
+  color: var(--primary-dark);
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s;
@@ -84,65 +99,116 @@ label {
 }
 
 .voto-grupo button:hover:not(:disabled) {
-  background-color: #cfcfcf;
+  background-color: #efe0ff;
+  border-color: var(--primary);
+  transform: translateY(-2px);
 }
 
 .voto-grupo button.selected {
-  background-color: #3b2d23;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: #fff;
-  border-color: #3b2d23;
+  border-color: var(--primary);
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(123, 44, 255, 0.3);
 }
 
 .voto-grupo button:disabled {
-  background-color: #ddd;
+  background-color: #eee8f3;
   cursor: not-allowed;
-  color: #888;
+  color: #aaa0b2;
 }
 
-button[type="submit"] {
-  background-color: #6b4e32;
+button[type="submit"],
+#btn-login {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
-  padding: 0.5rem 1.5rem;
+  padding: 0.65rem 1.7rem;
   border: none;
-  border-radius: 0.4rem;
+  border-radius: 999px;
   font-size: 1rem;
   cursor: pointer;
   user-select: none;
   margin-top: 0.5rem;
+  font-weight: 700;
+  box-shadow: 0 8px 18px rgba(123, 44, 255, 0.28);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button[type="submit"]:hover:not(:disabled),
+#btn-login:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(123, 44, 255, 0.36);
 }
 
 button[type="submit"]:disabled {
-  background-color: #bbb;
+  background: #c8becf;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
-/* Banner de Twitch */
 .twitch-banner {
   text-align: center;
-  margin-top: -0.5rem;
+  margin-top: -0.4rem;
   margin-bottom: 2rem;
 }
 
 #twitch-link {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #2b2b2b;
+  display: inline-block;
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: var(--primary);
   text-decoration: none;
-  transition: color 0.2s;
+  transition: all 0.2s;
+}
+
+#twitch-link::before {
+  content: "🟣 ";
 }
 
 #twitch-link:hover {
-  color: #6b4e32;
+  color: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
-/* Contenedor resultados a la derecha */
+#login-container {
+  background: var(--card);
+  border: 2px solid var(--border-soft);
+  border-radius: 1.3rem;
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+#login-container h2 {
+  color: var(--primary-dark);
+  margin-top: 0;
+}
+
+#nombre-usuario {
+  width: 100%;
+  max-width: 280px;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid var(--border-soft);
+  border-radius: 999px;
+  font-size: 1rem;
+  outline: none;
+  color: var(--text);
+  background: #fffafd;
+}
+
+#nombre-usuario:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(123, 44, 255, 0.12);
+}
+
 #resultados {
   flex: 1 1 300px;
-  background: #fffdf9;
-  border: 3px solid #5a3825;
-  border-radius: 1rem;
+  background: var(--card);
+  border: 2px solid var(--border-soft);
+  border-radius: 1.3rem;
   padding: 1rem 1.5rem;
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.1);
+  box-shadow: var(--shadow);
   overflow-y: auto;
   max-height: 80vh;
   font-size: 0.95rem;
@@ -152,70 +218,69 @@ button[type="submit"]:disabled {
   text-align: center;
   margin-top: 0;
   margin-bottom: 1rem;
-  color: #38210f;
+  color: var(--primary-dark);
 }
 
 .resultado {
-  border-top: 1px dashed #999;
+  border-top: 2px dashed rgba(212, 160, 23, 0.55);
   padding: 1rem;
   margin-top: 1rem;
-  border-radius: 0.6rem;
-  background-color: #fffdf9;
-  color: #5a3825;
+  border-radius: 0.9rem;
+  background-color: #fffafd;
+  color: var(--text);
 }
 
 .resultado.ganadora {
-  background-color: #5a3825;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
   color: white;
   padding: 1rem;
-  border-radius: 0.6rem;
+  border-radius: 1rem;
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.18), 0 10px 24px rgba(77, 22, 143, 0.28);
+}
+
+.resultado.ganadora::before {
+  content: "👑 Ganadora provisional";
+  display: block;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: #ffe29a;
 }
 
 .resultado .media {
   margin-top: 0.6rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   font-size: 1rem;
+  color: var(--accent);
 }
 
-/* Botón cerrar sesión */
+.resultado.ganadora .media {
+  color: #ffe29a;
+}
+
 #logout-wrapper {
   text-align: center;
   margin-top: 2rem;
 }
 
 #btn-logout {
-  background-color: #5a3825;        /* marrón oscuro */
-  color: white;
-  padding: 0.4rem 1rem;
-  border: none;
-  border-radius: 0.4rem;
+  background: #ffffff;
+  color: var(--primary-dark);
+  padding: 0.5rem 1.2rem;
+  border: 2px solid var(--border-soft);
+  border-radius: 999px;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  font-weight: 500;
+  transition: all 0.2s ease;
+  font-weight: 700;
 }
 
 #btn-logout:hover {
-  background-color: #3c2a18;       /* marrón más oscuro al pasar el ratón */
+  background: #f2e6ff;
+  border-color: var(--primary);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  #main-container {
-    flex-direction: column;
-    max-width: 100%;
-  }
-  #vacas-container {
-    grid-template-columns: 1fr;
-  }
-  #resultados {
-    max-height: none;
-    margin-top: 2rem;
-  }
-}
-
-/* Columna derecha */
 #lateral {
   flex: 1;
   display: flex;
@@ -223,17 +288,45 @@ button[type="submit"]:disabled {
   gap: 1rem;
 }
 
-/* Reproductor Twitch */
 #twitch-player {
-  background: #fffdf9;
-  border: 3px solid #5a3825;
-  border-radius: 1rem;
+  background: var(--card);
+  border: 2px solid var(--border-soft);
+  border-radius: 1.3rem;
   overflow: hidden;
-  box-shadow: 4px 4px 12px rgba(0,0,0,.1);
+  box-shadow: var(--shadow);
 }
 
 #twitch-player iframe {
   width: 100%;
   aspect-ratio: 16 / 9;
   border: 0;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  #twitch-link {
+    font-size: 1.25rem;
+  }
+
+  #main-container {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  #vacas-container {
+    grid-template-columns: 1fr;
+  }
+
+  #resultados {
+    max-height: none;
+    margin-top: 0;
+  }
 }
